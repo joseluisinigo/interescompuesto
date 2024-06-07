@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Interés Compuesto</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Calculadora de Interés Compuesto</h1>
+        <form id="calcForm">
+            <div class="form-group">
+                <label for="initialCoins">Número de monedas iniciales</label>
+                <input type="number" class="form-control" id="initialCoins" required>
+            </div>
+            <div class="form-group">
+                <label for="years">Número de años (default 10 años)</label>
+                <input type="number" class="form-control" id="years" placeholder="10">
+            </div>
+            <div class="form-group">
+                <label for="rewards">Porcentaje de rewards (default 16.8%)</label>
+                <input type="number" class="form-control" id="rewards" placeholder="16.8">
+            </div>
+            <div class="form-group">
+                <label for="coin">Moneda (default Polkadot)</label>
+                <input type="text" class="form-control" id="coin" placeholder="Polkadot">
+            </div>
+            <div class="form-group">
+                <label for="hypotheticalPrice">Precio hipotético de venta</label>
+                <input type="number" class="form-control" id="hypotheticalPrice" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Calcular</button>
+        </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Año</th>
+                    <th>Compuesto Diario</th>
+                    <th>Simple</th>
+                    <th>Precio Actual (USD)</th>
+                    <th>Val. Act. Comp. (USD)</th>
+                    <th>Val. Act. Simple (USD)</th>
+                    <th>Precio Hip. (USD)</th>
+                    <th>Val. Hip. Comp. (USD)</th>
+                    <th>Val. Hip. Simple (USD)</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTable">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        document.getElementById('calcForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const initialCoins = parseFloat(document.getElementById('initialCoins').value);
+            const years = parseFloat(document.getElementById('years').value) || 10;
+            const rewards = parseFloat(document.getElementById('rewards').value) || 16.8;
+            const coin = document.getElementById('coin').value.toLowerCase() || 'polkadot';
+            const hypotheticalPrice = parseFloat(document.getElementById('hypotheticalPrice').value);
+
+            async function obtenerPrecioActual(coin) {
+                const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coin}&vs_currencies=usd`);
+                const data = await response.json();
+                return data[coin].usd;
+            }
+
+            function calcularInteresCompuestoDiario(monedasIniciales, tasaInteresAnual, dias) {
+                let monedas = monedasIniciales;
+                const tasaInteresDiaria = tasaInteresAnual / 365;
+                for (let i = 0; i < dias; i++) {
+                    monedas += monedas * tasaInteresDiaria;
+                }
+                return monedas;
+            }
+
+            async function calcular() {
+                const precioActual = await obtenerPrecioActual(coin);
+
+                let monedasCompuestoDiario = [initialCoins];
+                let monedasSimple = [initialCoins];
+                let valorActualCompuesto = [initialCoins * precioActual];
+                let valorActualSimple = [initialCoins * precioActual];
+                let valorHipoteticoCompuesto = [initialCoins * hypotheticalPrice];
+                let valorHipoteticoSimple = [initialCoins * hypotheticalPrice];
+
+                for (let año = 1; año <= years; año++) {
+                    const compuestoDiario = calcularInteresCompuestoDiario(initialCoins, rewards / 100, 365 * año);
+                    const simple = initialCoins + (initialCoins * (rewards / 100) * año);
+
+                    monedasCompuestoDiario.push(compuestoDiario);
+                    monedasSimple.push(simple);
+
+                    valorActualCompuesto.push(compuestoDiario * precioActual);
+                    valorActualSimple.push(simple * precioActual);
+
+                    valorHipoteticoCompuesto.push(compuestoDiario * hypotheticalPrice);
+                    valorHipoteticoSimple.push(simple * hypotheticalPrice);
+                }
+
+                const resultsTable = document.getElementById('resultsTable');
+                resultsTable.innerHTML = '';
+
+                for (let i = 0; i <= years; i++) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${i === 0 ? 'Actual' : i}</td>
+                        <td>${monedasCompuestoDiario[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${monedasSimple[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${precioActual.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${valorActualCompuesto[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${valorActualSimple[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${hypotheticalPrice.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${valorHipoteticoCompuesto[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td>${valorHipoteticoSimple[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    `;
+                    resultsTable.appendChild(row);
+                }
+            }
+
+            calcular();
+        });
+    </script>
+</body>
+</html>
