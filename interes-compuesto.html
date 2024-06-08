@@ -27,55 +27,21 @@
             </div>
             <div class="form-group">
                 <label for="rewards">Porcentaje de rewards (default según la moneda seleccionada)</label>
-                <input type="number" class="form-control" id="rewards" placeholder="16.0">
+                <input type="number" class="form-control" id="rewards" step="0.01" placeholder="16.0">
             </div>
             <div class="form-group">
                 <label>Moneda</label>
                 <div class="crypto-icons">
                     <div class="crypto-icon">
                         <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.png" alt="Polkadot" data-coin="polkadot" data-rewards="16.8" class="selected">
-                        <div class="crypto-details">
-                            <span id="price-polkadot"></span> / <span id="reward-polkadot"></span>
-                        </div>
-                    </div>
-                    <div class="crypto-icon">
-                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" data-coin="bitcoin" data-rewards="2.0">
-                        <div class="crypto-details">
-                            <span id="price-bitcoin"></span> / <span id="reward-bitcoin"></span>
-                        </div>
                     </div>
                     <div class="crypto-icon">
                         <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" data-coin="ethereum" data-rewards="3.84">
-                        <div class="crypto-details">
-                            <span id="price-ethereum"></span> / <span id="reward-ethereum"></span>
-                        </div>
                     </div>
-                    <div class="crypto-icon more" style="display: none;">
-                        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin" data-coin="binancecoin" data-rewards="1.06">
-                        <div class="crypto-details">
-                            <span id="price-binancecoin"></span> / <span id="reward-binancecoin"></span>
-                        </div>
-                    </div>
-                    <div class="crypto-icon more" style="display: none;">
-                        <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" alt="TON" data-coin="ton" data-rewards="9.0">
-                        <div class="crypto-details">
-                            <span id="price-ton"></span> / <span id="reward-ton"></span>
-                        </div>
-                    </div>
-                    <div class="crypto-icon more" style="display: none;">
-                        <img src="https://cryptologos.cc/logos/aave-aave-logo.png" alt="AAVE" data-coin="aave" data-rewards="5.0">
-                        <div class="crypto-details">
-                            <span id="price-aave"></span> / <span id="reward-aave"></span>
-                        </div>
-                    </div>
-                    <div class="crypto-icon more" style="display: none;">
-                        <img src="https://cryptologos.cc/logos/avalanche-avax-logo.png" alt="AVAX" data-coin="avax" data-rewards="8.5">
-                        <div class="crypto-details">
-                            <span id="price-avax"></span> / <span id="reward-avax"></span>
-                        </div>
+                    <div class="crypto-icon">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" data-coin="bitcoin" data-rewards="2.0">
                     </div>
                 </div>
-                <button type="button" id="showMoreCoins" class="btn btn-secondary btn-sm mt-2">Mostrar más monedas</button>
             </div>
             <div class="form-group">
                 <label for="hypotheticalPrice">Precio hipotético de venta</label>
@@ -83,6 +49,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Calcular</button>
         </form>
+        <div id="error-message" class="text-danger mt-3" style="display: none;">Error al obtener el reward para Polkadot. Utilizando valor por defecto.</div>
         <table class="table table-striped table-responsive">
             <thead>
                 <tr>
