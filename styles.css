@@ -1,0 +1,107 @@
+body {
+  background-color: #f8f9fa;
+  color: #000;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+.container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.dark-mode .container {
+  background: #333;
+}
+.dark-mode table th, .dark-mode table td {
+  color: #ffffff;
+}
+table {
+  margin-top: 20px;
+}
+.toggle-dark-mode {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+.crypto-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+.crypto-icons img {
+  width: 40px;  /* Ajuste del tamaño de los iconos */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.crypto-icons img.selected {
+  transform: scale(1.2);
+}
+
+.crypto-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+
+.crypto-icon {
+  text-align: center;
+}
+
+.crypto-icons img {
+  width: 40px;  /* Ajuste del tamaño de los iconos */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.crypto-icons img.selected {
+  transform: scale(1.2);
+}
+
+.crypto-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+}
+
+
+.crypto-icons {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.crypto-icon {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.crypto-icons img {
+  width: 40px;  /* Ajuste del tamaño de los iconos */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.crypto-icons img.selected {
+  transform: scale(1.2);
+}
+
+.crypto-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+#showMoreCoins {
+  display: block;
+  margin: 0 auto;
+}

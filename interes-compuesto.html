@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Interés Compuesto - Maximiza tus Inversiones</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Utiliza nuestra calculadora de interés compuesto para proyectar tus ganancias y optimizar tus inversiones en criptomonedas como Polkadot.">
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-center">Calculadora de Interés Compuesto</h1>
+            <button class="toggle-dark-mode" id="toggleDarkMode">
+                <span id="darkModeIcon" class="fa fa-moon"></span>
+            </button>
+        </div>
+        <form id="calcForm">
+            <div class="form-group">
+                <label for="initialCoins">Número de monedas iniciales</label>
+                <input type="number" class="form-control" id="initialCoins" required>
+            </div>
+            <div class="form-group">
+                <label for="years">Número de años: <span id="yearValue">10</span></label>
+                <input type="range" class="form-control-range" id="years" min="1" max="25" value="10">
+            </div>
+            <div class="form-group">
+                <label for="rewards">Porcentaje de rewards (default según la moneda seleccionada)</label>
+                <input type="number" class="form-control" id="rewards" placeholder="16.0">
+            </div>
+            <div class="form-group">
+                <label>Moneda</label>
+                <div class="crypto-icons">
+                    <div class="crypto-icon">
+                        <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.png" alt="Polkadot" data-coin="polkadot" data-rewards="16.8" class="selected">
+                        <div class="crypto-details">
+                            <span id="price-polkadot"></span> / <span id="reward-polkadot"></span>
+                        </div>
+                    </div>
+                    <div class="crypto-icon">
+                        <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin" data-coin="bitcoin" data-rewards="2.0">
+                        <div class="crypto-details">
+                            <span id="price-bitcoin"></span> / <span id="reward-bitcoin"></span>
+                        </div>
+                    </div>
+                    <div class="crypto-icon">
+                        <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="Ethereum" data-coin="ethereum" data-rewards="3.84">
+                        <div class="crypto-details">
+                            <span id="price-ethereum"></span> / <span id="reward-ethereum"></span>
+                        </div>
+                    </div>
+                    <div class="crypto-icon more" style="display: none;">
+                        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="Binance Coin" data-coin="binancecoin" data-rewards="1.06">
+                        <div class="crypto-details">
+                            <span id="price-binancecoin"></span> / <span id="reward-binancecoin"></span>
+                        </div>
+                    </div>
+                    <div class="crypto-icon more" style="display: none;">
+                        <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" alt="TON" data-coin="ton" data-rewards="9.0">
+                        <div class="crypto-details">
+                            <span id="price-ton"></span> / <span id="reward-ton"></span>
+                        </div>
+                    </div>
+                    <div class="crypto-icon more" style="display: none;">
+                        <img src="https://cryptologos.cc/logos/aave-aave-logo.png" alt="AAVE" data-coin="aave" data-rewards="5.0">
+                        <div class="crypto-details">
+                            <span id="price-aave"></span> / <span id="reward-aave"></span>
+                        </div>
+                    </div>
+                    <div class="crypto-icon more" style="display: none;">
+                        <img src="https://cryptologos.cc/logos/avalanche-avax-logo.png" alt="AVAX" data-coin="avax" data-rewards="8.5">
+                        <div class="crypto-details">
+                            <span id="price-avax"></span> / <span id="reward-avax"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="showMoreCoins" class="btn btn-secondary btn-sm mt-2">Mostrar más monedas</button>
+            </div>
+            <div class="form-group">
+                <label for="hypotheticalPrice">Precio hipotético de venta</label>
+                <input type="number" class="form-control" id="hypotheticalPrice" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Calcular</button>
+        </form>
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Año</th>
+                    <th>Compuesto Diario</th>
+                    <th>Simple</th>
+                    <th>Precio Actual (USD)</th>
+                    <th>Val. Act. Comp. (USD)</th>
+                    <th>Val. Act. Simple (USD)</th>
+                    <th>Precio Hip. (USD)</th>
+                    <th>Val. Hip. Comp. (USD)</th>
+                    <th>Val. Hip. Simple (USD)</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTable">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('years').addEventListener('input', function() {
+            document.getElementById('yearValue').textContent = this.value;
+        });
+    </script>
+</body>
+</html>
