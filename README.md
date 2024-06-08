@@ -1,77 +1,72 @@
-# Interés Compuesto y Simple con Precio Actual y Hipotético
+# Calculadora de Interés Compuesto
 
-Este programa calcula el interés compuesto diario y el interés simple para una cantidad de monedas especificada por el usuario durante un número determinado de años. Además, se obtiene el precio actual de la moneda y se calcula el valor actual de las monedas si se vendieran al precio actual. También se puede introducir un precio hipotético de venta para calcular el valor total en ese caso.
+## Descripción
 
-## Uso del programa
+Esta es una aplicación web que calcula el interés compuesto para diferentes criptomonedas. Permite a los usuarios seleccionar una moneda, establecer el número de monedas iniciales, el número de años y el porcentaje de recompensa. La aplicación también calcula cuándo se alcanzará un ingreso mensual deseado solo vendiendo las recompensas obtenidas cada año.
 
-1. Introduce el número de monedas iniciales.
-2. Introduce el número de años (default 10 años).
-3. Introduce el porcentaje de rewards (default 16.8%).
-4. Introduce la moneda (default Polkadot).
-5. Introduce el precio hipotético de venta.
+## Autor
 
-El programa calculará y mostrará el interés compuesto diario, el interés simple, el precio actual y el valor actual de las monedas, así como el valor total si se vendiesen al precio hipotético introducido.
+- **Nombre:** Jose Luis Iñigo Blasco (aka Riskoo)
+- **Websites:** [diseñowebensevilla.org](https://diseñowebensevilla.org), [joseluisnigo.work](https://joseluisnigo.work)
+- **LinkedIn:** [https://www.linkedin.com/in/joseluisinigoblasco/](https://www.linkedin.com/in/joseluisinigoblasco/)
+- **GitHub:** [https://github.com/joseluisinigo](https://github.com/joseluisinigo)
 
-## Ejecución del programa
+## Funcionalidades
 
-Para ejecutar el programa, necesitas tener instalado Python y el paquete `pandas`. Puedes instalar `pandas` usando pip:
+- **Selección de Moneda:** Los usuarios pueden seleccionar entre Polkadot, Ethereum y Bitcoin.
+- **Número de Monedas Iniciales:** Los usuarios pueden establecer el número de monedas iniciales.
+- **Número de Años:** Los usuarios pueden establecer el número de años para calcular el interés compuesto.
+- **Porcentaje de Recompensa:** Los usuarios pueden establecer el porcentaje de recompensa.
+- **Precio Hipotético de Venta:** Los usuarios pueden establecer un precio hipotético de venta.
+- **Ingreso Mensual Deseado:** Los usuarios pueden establecer el ingreso mensual deseado utilizando una barra de rango.
+- **Modo Oscuro/Claro:** Los usuarios pueden alternar entre el modo oscuro y claro.
+- **Resultados:** La aplicación muestra los resultados del cálculo del interés compuesto y cuándo se alcanzará el ingreso mensual deseado al vender las recompensas a los precios actual e hipotético.
 
-pip install pandas
+## Cómo Ejecutar el Proyecto
 
-Luego, puedes ejecutar el script Python:
+1. **Descargar los Archivos:** Asegúrate de tener los archivos `index.html`, `styles.css` y `script.js`.
+2. **Abrir `index.html`:** Abre el archivo `index.html` en un navegador web.
+3. **Interacción:** Interactúa con la interfaz para ingresar los datos deseados y obtener los resultados.
 
-python nombre_del_script.py
+## Archivos
 
-## Ejemplo de salida
+- **index.html:** Estructura principal de la aplicación.
+- **styles.css:** Estilos y diseño de la aplicación.
+- **script.js:** Lógica de la aplicación para calcular el interés compuesto y manejar la interfaz de usuario.
 
-Introduce el número de monedas iniciales: 1500
+# Compound Interest Calculator
 
-Introduce el número de años (default 10 años): 10
+## Description
 
-Introduce el porcentaje de rewards (default 16.8%): 16.8
+This is a web application that calculates compound interest for different cryptocurrencies. It allows users to select a currency, set the initial number of coins, the number of years, and the reward percentage. The application also calculates when the desired monthly income will be reached by selling the rewards obtained each year.
 
-Introduce la moneda (default Polkadot): Polkadot
+## Author
 
-Introduce el precio hipotético de venta de la moneda: 100
+- **Name:** Jose Luis Iñigo Blasco (aka Riskoo)
+- **Websites:** [diseñowebensevilla.org](https://diseñowebensevilla.org), [joseluisnigo.work](https://joseluisnigo.work)
+- **LinkedIn:** [https://www.linkedin.com/in/joseluisinigoblasco/](https://www.linkedin.com/in/joseluisinigoblasco/)
+- **GitHub:** [https://github.com/joseluisinigo](https://github.com/joseluisinigo)
 
-El programa mostrará una tabla con los resultados calculados.
+## Features
 
----
+- **Currency Selection:** Users can select between Polkadot, Ethereum, and Bitcoin.
+- **Initial Number of Coins:** Users can set the initial number of coins.
+- **Number of Years:** Users can set the number of years for calculating compound interest.
+- **Reward Percentage:** Users can set the reward percentage.
+- **Hypothetical Selling Price:** Users can set a hypothetical selling price.
+- **Desired Monthly Income:** Users can set the desired monthly income using a range slider.
+- **Dark/Light Mode:** Users can toggle between dark and light mode.
+- **Results:** The application displays the results of the compound interest calculation and when the desired monthly income will be reached by selling the rewards at the current and hypothetical prices.
 
-# Compound and Simple Interest with Current and Hypothetical Price
+## How to Run the Project
 
-This program calculates the daily compound interest and the simple interest for a specified amount of coins over a given number of years. Additionally, it retrieves the current price of the coin and calculates the current value of the coins if sold at the current price. You can also input a hypothetical sale price to calculate the total value in that case.
+1. **Download the Files:** Ensure you have the `index.html`, `styles.css`, and `script.js` files.
+2. **Open `index.html`:** Open the `index.html` file in a web browser.
+3. **Interaction:** Interact with the interface to input the desired data and obtain the results.
 
-## How to Use the Program
+## Files
 
-1. Enter the number of initial coins.
-2. Enter the number of years (default 10 years).
-3. Enter the rewards percentage (default 16.8%).
-4. Enter the coin (default Polkadot).
-5. Enter the hypothetical sale price.
+- **index.html:** Main structure of the application.
+- **styles.css:** Styles and design of the application.
+- **script.js:** Application logic for calculating compound interest and handling the user interface.
 
-The program will calculate and display the daily compound interest, simple interest, current price, and current value of the coins, as well as the total value if sold at the hypothetical price entered.
-
-## Running the Program
-
-To run the program, you need to have Python installed and the `pandas` package. You can install `pandas` using pip:
-
-pip install pandas
-
-Then, you can run the Python script:
-
-python script_name.py
-
-## Example Output
-
-Enter the number of initial coins: 1500
-
-Enter the number of years (default 10 years): 10
-
-Enter the rewards percentage (default 16.8%): 16.8
-
-Enter the coin (default Polkadot): Polkadot
-
-Enter the hypothetical sale price of the coin: 100
-
-The program will display a table with the calculated results.
