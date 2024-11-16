@@ -69,3 +69,4 @@ This is a web application that calculates compound interest for different crypto
 - **index.html:** Main structure of the application.
 - **styles.css:** Styles and design of the application.
 - **script.js:** Application logic for calculating compound interest and handling the user interface.
+
