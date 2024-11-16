@@ -1,3 +1,13 @@
+/*
+    Project: Calculadora de Interés Compuesto
+    Author: Jose Luis Iñigo Blasco (aka Riskoo)
+    Websites: diseñowebensevilla.org, joseluisnigo.work
+    LinkedIn: https://www.linkedin.com/in/joseluisinigoblasco/
+    GitHub: https://github.com/joseluisinigo
+*/
+
+
+
 // Función para obtener el precio actual de la criptomoneda
 async function obtenerPrecioActual(coin) {
   try {
@@ -7,24 +17,6 @@ async function obtenerPrecioActual(coin) {
   } catch (error) {
       console.error('Error al obtener el precio actual:', error);
       return null;
-  }
-}
-
-// Función para obtener el reward de Polkadot
-async function obtenerRewardPolkadot() {
-  try {
-      const response = await fetch('https://staking.polkadot.network/?utm_source=polkadot.network#/overview');
-      const text = await response.text();
-      const match = text.match(/(\d+\.\d+)% after commission/);
-      if (match) {
-          return parseFloat(match[1]);
-      } else {
-          throw new Error('No se pudo obtener el porcentaje de reward de Polkadot');
-      }
-  } catch (error) {
-      console.error('Error al obtener el reward de Polkadot:', error);
-      document.getElementById('error-message').style.display = 'block';
-      return 16.0;  // Valor por defecto en caso de error
   }
 }
 
@@ -68,9 +60,8 @@ function mostrarResultados(resultsTable, years, monedasCompuestoDiario, monedasS
                       <div>
                           <p><strong>Año:</strong> ${i === 0 ? 'Actual' : i}</p>
                           <p><strong>Compuesto Diario:</strong> ${monedasCompuestoDiario[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                                                      <p><strong>Compuesto Diario:</strong> ${monedasCompuestoDiario[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                            <p><strong>Simple:</strong> ${monedasSimple[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                            <p><strong>Precio Actual (USD):</strong> ${precioActual.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                          <p><strong>Simple:</strong> ${monedasSimple[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                                                    <p><strong>Precio Actual (USD):</strong> ${precioActual.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                             <p><strong>Val. Act. Comp. (USD):</strong> ${valorActualCompuesto[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                             <p><strong>Val. Act. Simple (USD):</strong> ${valorActualSimple[i].toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                             <p><strong>Precio Hip. (USD):</strong> ${hypotheticalPrice.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
@@ -86,6 +77,38 @@ function mostrarResultados(resultsTable, years, monedasCompuestoDiario, monedasS
     }
 }
 
+// Función para calcular cuándo se alcanzará el ingreso mensual deseado solo vendiendo rewards
+function calcularFechaIngresoMensualDeseado(monedasCompuestoDiario, rewards, precioActual, hypotheticalPrice, ingresoMensual) {
+    const resultado = {
+        fechaPrecioActual: null,
+        valorPrecioActual: null,
+        fechaPrecioHipotetico: null,
+        valorPrecioHipotetico: null
+    };
+    
+    for (let año = 1; año < monedasCompuestoDiario.length; año++) {
+        const rewardsAnual = (monedasCompuestoDiario[año - 1] * rewards) / 100;
+        const ingresoMensualActual = (rewardsAnual * precioActual) / 12;
+        const ingresoMensualHipotetico = (rewardsAnual * hypotheticalPrice) / 12;
+        
+        if (!resultado.fechaPrecioActual && ingresoMensualActual >= ingresoMensual) {
+            resultado.fechaPrecioActual = año;
+            resultado.valorPrecioActual = ingresoMensualActual;
+        }
+        
+        if (!resultado.fechaPrecioHipotetico && ingresoMensualHipotetico >= ingresoMensual) {
+            resultado.fechaPrecioHipotetico = año;
+            resultado.valorPrecioHipotetico = ingresoMensualHipotetico;
+        }
+        
+        if (resultado.fechaPrecioActual && resultado.fechaPrecioHipotetico) {
+            break;
+        }
+    }
+    
+    return resultado;
+}
+
 // Manejador del evento submit del formulario
 document.getElementById('calcForm').addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -95,8 +118,9 @@ document.getElementById('calcForm').addEventListener('submit', async function(ev
     const rewards = parseFloat(document.getElementById('rewards').value.replace(',', '.'));
     const coin = document.querySelector('.crypto-icons img.selected').dataset.coin;
     const hypotheticalPrice = parseFloat(document.getElementById('hypotheticalPrice').value);
+    const ingresoMensual = parseFloat(document.getElementById('monthlyIncome').value);
 
-    if (isNaN(initialCoins) || isNaN(years) || isNaN(rewards) || isNaN(hypotheticalPrice)) {
+    if (isNaN(initialCoins) || isNaN(years) || isNaN(rewards) || isNaN(hypotheticalPrice) || isNaN(ingresoMensual)) {
         alert("Por favor, ingrese valores válidos en todos los campos.");
         return;
     }
@@ -127,6 +151,15 @@ document.getElementById('calcForm').addEventListener('submit', async function(ev
 
     const resultsTable = document.getElementById('resultsTable');
     mostrarResultados(resultsTable, years, monedasCompuestoDiario, monedasSimple, precioActual, valorActualCompuesto, valorActualSimple, hypotheticalPrice, valorHipoteticoCompuesto, valorHipoteticoSimple);
+
+    const resultadoIngresoMensual = calcularFechaIngresoMensualDeseado(monedasCompuestoDiario, rewards, precioActual, hypotheticalPrice, ingresoMensual);
+
+    const resultMessage = document.getElementById('resultMessage');
+    resultMessage.innerHTML = `
+        <p>Fecha para alcanzar el ingreso mensual deseado:</p>
+        <p><strong>Vendiendo a ${precioActual.toFixed(2)} USD:</strong> ${resultadoIngresoMensual.fechaPrecioActual ? `Año ${resultadoIngresoMensual.fechaPrecioActual}, con un ingreso de $${resultadoIngresoMensual.valorPrecioActual.toFixed(2)} por mes` : 'No alcanzado en el periodo especificado'}</p>
+        <p><strong>Vendiendo a ${hypotheticalPrice.toFixed(2)} USD:</strong> ${resultadoIngresoMensual.fechaPrecioHipotetico ? `Año ${resultadoIngresoMensual.fechaPrecioHipotetico}, con un ingreso de $${resultadoIngresoMensual.valorPrecioHipotetico.toFixed(2)} por mes` : 'No alcanzado en el periodo especificado'}</p>
+    `;
 });
 
 // Evento click para seleccionar criptomoneda y actualizar rewards y precio hipotético
@@ -136,20 +169,24 @@ document.querySelectorAll('.crypto-icons img').forEach(icon => {
         this.classList.add('selected');
         const coin = this.dataset.coin;
 
-        let reward, hypotheticalPrice;
+        let reward, hypotheticalPrice, initialCoins;
         if (coin === 'polkadot') {
-            reward = await obtenerRewardPolkadot();
+            reward = 16.8;
             hypotheticalPrice = 100;
+            initialCoins = 1500;
         } else if (coin === 'ethereum') {
             reward = 3.84;
             hypotheticalPrice = 10000;
+            initialCoins = 0;
         } else if (coin === 'bitcoin') {
             reward = 2.0;
             hypotheticalPrice = 1000000;
+            initialCoins = 0;
         }
 
         document.getElementById('rewards').value = reward;
         document.getElementById('hypotheticalPrice').value = hypotheticalPrice;
+        document.getElementById('initialCoins').value = initialCoins;
     });
 });
 
@@ -170,14 +207,7 @@ document.getElementById('years').addEventListener('input', function() {
 });
 
 // Inicialización de la página
-document.addEventListener('DOMContentLoaded', async function() {
-    const polkadotReward = await obtenerRewardPolkadot();
-    if (polkadotReward) {
-        document.querySelector('[data-coin="polkadot"]').dataset.rewards = polkadotReward;
-        document.querySelector('[data-coin="polkadot"]').click();
-    } else {
-        document.querySelector('[data-coin="polkadot"]').dataset.rewards = 16.0; // Valor por defecto
-        document.querySelector('[data-coin="polkadot"]').click();
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('[data-coin="polkadot"]').click();
 });
 
